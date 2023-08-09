@@ -54,7 +54,7 @@ def step_then_todo_list_should_be_empty(context):
 # Delete Task By Id
 @when("the user deletes task {task_title}")
 def step_when_user_delete_task(context, task_title):
-    task_index = [index for index, task in enumerate(context.todo_list.tasks) if task.title == task_title][0]
+    task_index = [index for index, task in enumerate(context.todo_list.tasks) if task.title == task_title]
     if task_index is not None:
         context.todo_list.deleteTask(task_index)
 
