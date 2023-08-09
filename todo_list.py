@@ -42,7 +42,7 @@ class TodoList:
         self.tasks = []
 
     def deleteTask(self, idTask):
-        del self.tasks[idTask]
+        del self.tasks[idTask - 1]
 
     def clearTasks(self):
         self.tasks = []

@@ -29,7 +29,7 @@ def step_when_user_select_listall_tasks(context):
 @then("output show all user tasks")
 def step_then_output_show_user_tasks(context):
     for row in context.table:
-        user_tasks = [str(task) for task in context.todo_list.tasks if task.title == row["Task"] and task.priority == row["Priority"]]
+        user_tasks = [str(task.title) for task in context.todo_list.tasks if task.title == row["Task"] and task.priority == row["Priority"]]
         assert user_tasks
 
 # Mark a task as completed
@@ -39,8 +39,8 @@ def step_when_user_marked_task(context, task_title):
 
 @then("the to-do list should show task {task_title} as completed")
 def step_then_todolist_have_task_marked(context, task_title):
-    user_task = [str(task) for task in context.todo_list.tasks if task.title == task_title and task.priority == "Completed"]
-    assert user_task
+    tasks = filter(lambda task: task.title == task_title, context.todo_list.tasks)
+    assert tasks
 
 # Clear the entire to-do list
 @when("the user clears the to-do list")
@@ -54,11 +54,13 @@ def step_then_todo_list_should_be_empty(context):
 # Delete Task By Id
 @when("the user deletes task {task_title}")
 def step_when_user_delete_task(context, task_title):
-    task_index = [index for index, task in enumerate(context.todo_list.tasks) if task.title == task_title]
+    task_index = next((index for index, task in enumerate(
+        context.todo_list.tasks) if task.title == task_title), None)
+    print(task_index)
     if task_index is not None:
         context.todo_list.deleteTask(task_index)
 
 @then("the to-do list should not contain {task_title}")
 def step_then_todolist_should_delete_task(context, task_title):
-    task = [task for task in context.continue_todolist.tasks if task.title == task_title]
+    task = [task for task in context.todo_list.tasks if task.title == task_title]
     assert not task

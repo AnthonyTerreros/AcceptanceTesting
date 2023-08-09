@@ -5,7 +5,7 @@ Feature: Todo List Management App
         Then the to-do list should contain "Buy groceries" with priority "High"
 
     Scenario: List all tasks in todo list
-        Given the todo list show all tasks
+        Given the to-do list contains tasks
         | Task          | Priority |
         | Buy groceries | High     |
         | Pay bills     | Medium   |
